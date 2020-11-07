@@ -1,4 +1,4 @@
-FROM sonarqube:8-community
+FROM sonarqube:community
 
 ENV SUMMARY="SonarQube for OpenShift" \
     DESCRIPTION="This image creates the SonarQube image for use at OpenShift"
@@ -13,12 +13,9 @@ LABEL summary="$SUMMARY" \
 
 WORKDIR $SONARQUBE_HOME
 
-# In order to drop the root user, we have to make some directories world
-# writable as OpenShift default security model is to run the container under
-# random UIDs.
-RUN chown -R 1001:0 "$SONARQUBE_HOME" \
+RUN chmod -R g=u "$SONARQUBE_HOME" \
   && chgrp -R 0 "$SONARQUBE_HOME" \
-  && chmod -R g+rwX "$SONARQUBE_HOME" \
+  && chmod -R g+rwX "$SONARQUBE_HOME/extensions" \
   && chmod 775 "$SONARQUBE_HOME/bin/run.sh"
 
 USER 1001
