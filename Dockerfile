@@ -1,4 +1,4 @@
-FROM sonarqube:community
+FROM sonarqube:lts-community
 
 ENV SUMMARY="SonarQube for OpenShift" \
     DESCRIPTION="This image creates the SonarQube image for use at OpenShift"
